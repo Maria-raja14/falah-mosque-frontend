@@ -1,0 +1,86 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="container-fluid">
+  <div class="row register-div">
+    <div class="col-md-2 col-lg-4"></div>
+    <div class="col-md-8 col-lg-4">
+      <mat-card class="register-card">
+        <mat-card-header class="register-card-header">
+          <mat-card-title>Create Account</mat-card-title>
+        </mat-card-header>
+        <p>Already have an account ? <a class="log-link" routerLink="/login">Login</a></p>
+        <mat-divider></mat-divider>
+        <mat-card-content class="register-card-content">
+          <form [formGroup]="RegisterForm" #RegisterFormDirective="ngForm"
+            (ngSubmit)="submitRegister(RegisterFormDirective)">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <input type="text" matInput formControlName="first_name">
+                  <mat-error>First Name is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Second Name</mat-label>
+                  <input type="text" matInput formControlName="second_name">
+                  <mat-error>Second Name is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input type="email" matInput required formControlName="email">
+                  <mat-error *ngIf="RegisterForm.controls['email'].value == ''">Email is required</mat-error>
+                  <mat-error
+                    *ngIf="RegisterForm.controls['email'].status == 'INVALID' && RegisterForm.controls['email'].value != '' && !RegisterForm.controls['email'].errors?.['userEmailExists']">
+                    Invalid Email Address</mat-error>
+                  <mat-error *ngIf="RegisterForm.controls['email'].errors?.['userEmailExists']">Email Already Exist
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input [type]="showPassword ? 'text' : 'password'" name="password" matInput required
+                    formControlName="password">
+                  <mat-icon matSuffix (click)="togglePasswordVisibility('password')">
+                    {{showPassword?'visibility':'visibility_off'}}</mat-icon>
+                  <mat-error
+                    *ngIf="RegisterForm.controls['password'].hasError('minlength') && !RegisterForm.controls['password'].hasError('required')">
+                    Minimum password length is 6</mat-error>
+                  <mat-error *ngIf="RegisterForm.controls['password'].hasError('required')">Password is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Confirm Password</mat-label>
+                  <input [type]="showConfirmPassword ? 'text' : 'password'" name="password" matInput
+                    formControlName="confirm_password">
+                  <mat-icon matSuffix (click)="togglePasswordVisibility('confirm_password')">
+                    {{showConfirmPassword?'visibility':'visibility_off'}}</mat-icon>
+                  <mat-error *ngIf="RegisterForm.controls['confirm_password'].value == ''">Confirm Password is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="RegisterForm.controls['confirm_password'].value != '' && RegisterForm.controls['confirm_password'].errors?.['MatchPassword']">
+                    Password does not match</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-card-actions class="register-card-actions">
+              <div class="button">
+                <button type="submit" mat-button>Sign Up</button>
+              </div>
+            </mat-card-actions>
+          </form>
+        </mat-card-content>
+      </mat-card>
+      <div>
+        <img src="../../../assets/images/logo1.jpg" alt="" style="width:100% ;" class="footer_image">
+      </div>
+    </div>
+    <div class="col-md-2 col-lg-4"></div>
+  </div>
+</div>

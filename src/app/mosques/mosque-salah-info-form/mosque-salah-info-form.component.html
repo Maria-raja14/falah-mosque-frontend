@@ -1,0 +1,273 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="container-fluid">
+    <div class="row my-4 header-title">
+        <h2>{{ isEdit ? 'Edit Mosque Salah Info' : 'Create Mosque Salah Info' }}</h2>
+        <hr class="m-0">
+    </div>
+</div>
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-12">
+            <mat-card class=" my-0 mx-auto w-60per">
+                <mat-card-content>
+                    <form [formGroup]="MosqueSalahInfoForm" #MosqueSalahInfoFormDirective="ngForm"
+                        (ngSubmit)="submitMosqueSalahInfoForm(MosqueSalahInfoFormDirective)">
+                        <div class="d-flex flex-wrap">
+                            <mat-form-field appearance="outline" class="user-form-field" style="width: 100%;"
+                            *ngIf="dropDownVisibility">
+                                <mat-label>Select Mosque</mat-label>
+                                <mat-select formControlName="mosque_id" >
+                                    <mat-option *ngFor="let mosque of mosqueNameIDList" [value]="mosque?._id">
+                                        {{ mosque?.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>Mosque is required</mat-error>
+                            </mat-form-field>
+
+                            <mat-divider class="mosque-salah-divider"
+                            *ngIf="dropDownVisibility"></mat-divider>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Fajr Adhan</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="fajr_adhan"
+                                       [ngxMatTimepicker]="Fajr_Adhan"
+                                       />
+                                <ngx-mat-timepicker-toggle matSuffix
+                                (click)="openIcon(Fajr_Adhan)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Fajr Adhan is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Fajr_Adhan></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Fajr Namaz</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="fajr_namaz"
+                                       [ngxMatTimepicker]="Fajr_Namaz"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Fajr_Namaz)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Fajr Namaz is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Fajr_Namaz></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Dhuhr Adhan</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="dhuhr_adhan"
+                                       [ngxMatTimepicker]="Dhuhr_Adhan"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Dhuhr_Adhan)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Dhuhr Adhan is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Dhuhr_Adhan></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Dhuhr Namaz</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="dhuhr_namaz"
+                                       [ngxMatTimepicker]="Dhuhr_Namaz"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Dhuhr_Namaz)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Dhuhr Namaz is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Dhuhr_Namaz></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Asr Adhan</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="asr_adhan"
+                                       [ngxMatTimepicker]="Asr_Adhan"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Asr_Adhan)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Asr Adhan is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Asr_Adhan></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Asr Namaz</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="asr_namaz"
+                                       [ngxMatTimepicker]="Asr_Namaz"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Asr_Namaz)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Asr Namaz is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Asr_Namaz></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">      
+                                <mat-label>Maghrib Adhan</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="maghrib_adhan"
+                                       [ngxMatTimepicker]="Maghrib_Adhan"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Maghrib_Adhan)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Maghrib Adhan is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Maghrib_Adhan></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Maghrib Namaz</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="maghrib_namaz"
+                                       [ngxMatTimepicker]="Maghrib_Namaz"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Maghrib_Namaz)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Maghrib Namaz is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Maghrib_Namaz></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Isha Adhan</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="isha_adhan"
+                                       [ngxMatTimepicker]="Isha_Adhan"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Isha_Adhan)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Isha Adhan is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Isha_Adhan></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Isha Namaz</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="isha_namaz"
+                                       [ngxMatTimepicker]="Isha_Namaz"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Isha_Namaz)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Isha Namaz is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Isha_Namaz></ngx-mat-timepicker>
+
+                            <!-- <mat-divider class="mosque-salah-divider"></mat-divider> -->
+
+                            <!-- <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Sun Rise</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="sun_rise"
+                                       [ngxMatTimepicker]="Sun_Rise"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Sun_Rise)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Sun Rise is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Sun_Rise></ngx-mat-timepicker> -->
+
+                            <mat-form-field appearance="outline" class="user-form-field" style="width: 100%;" >
+                                <mat-label>Jumma</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="jumma"
+                                       [ngxMatTimepicker]="Jumma"
+                                       />
+                                <ngx-mat-timepicker-toggle 
+                                matSuffix
+                                (click)="openIcon(Jumma)"
+                                *ngIf="!mosqueSalahInfoData"
+                                ></ngx-mat-timepicker-toggle>
+                                <mat-error>Jumma is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Jumma></ngx-mat-timepicker>
+
+                            <!-- <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Tarawih</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="tarawih"
+                                       [ngxMatTimepicker]="Tarawih"
+                                       />
+                                <ngx-mat-timepicker-toggle matSuffix></ngx-mat-timepicker-toggle>
+                                <mat-error>Tarawih is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Tarawih></ngx-mat-timepicker>
+
+                            <mat-form-field appearance="outline" class="user-form-field">
+                                <mat-label>Eid</mat-label>
+                                <input matInput
+                                       required
+                                       readonly 
+                                       formControlName="eid"
+                                       [ngxMatTimepicker]="Eid"
+                                       />
+                                <ngx-mat-timepicker-toggle matSuffix></ngx-mat-timepicker-toggle>
+                                <mat-error>Eid is required</mat-error>
+                            </mat-form-field>
+                            <ngx-mat-timepicker color="accent" #Eid></ngx-mat-timepicker> -->
+
+                        </div>
+                        <mat-card-actions class="justify-content-center MosqueForm-card-actions">
+                            <div class="">
+                                <button type="submit" mat-raised-button class="userfrom-sub-btn text-white">Submit</button>
+                            </div>
+                        </mat-card-actions>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

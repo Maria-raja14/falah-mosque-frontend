@@ -1,0 +1,44 @@
+.sidebar-list
+    min-width: 250px
+    max-width: 300px
+
+.menu-width 
+  width: 100%
+
+.menu-icon 
+  transition: 100ms ease-in-out
+  transform: rotate(270deg)
+
+.menu-icon.rotated 
+  transform: rotate(360deg)
+
+.parent-menu
+  mat-list-item
+    span
+      font-size: 17px
+
+.sub-menu 
+  overflow-y: hidden
+  transition: transform 100ms ease
+  transform: scaleY(0)
+  transform-origin: top
+  padding-left: 30px
+  mat-list-item
+    span
+      font-size: 15px
+
+.sub-menu.expanded 
+  transform: scaleY(1)
+
+.dasboard-icon  
+  width: 23px
+
+.masjidh-icon  
+  width: 23px
+
+.user-icon  
+  width: 20px
+  margin-right: 12px !important
+::ng-deep
+  .mdc-list-item__primary-text
+    display: flex

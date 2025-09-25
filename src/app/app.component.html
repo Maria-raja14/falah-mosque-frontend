@@ -1,0 +1,35 @@
+<div *ngIf="showLayout; else hideLayout">
+  <app-header
+    (menuChangeEvent)="
+      drawerContainer ? onMenuTogglerChange($event) : sidenav.toggle()
+    "
+  ></app-header>
+  <mat-drawer-container
+    *ngIf="drawerContainer; else sideNavContainer"
+    class="app-container"
+  >
+    <mat-drawer class="side-drawer" mode="side" [opened]="isMenuOpen">
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+      <!-- <app-footer></app-footer> -->
+    </mat-drawer-content>
+  </mat-drawer-container>
+
+  <ng-template #sideNavContainer>
+    <mat-sidenav-container class="app-container">
+      <mat-sidenav class="side-navbar" #sidenav="matSidenav">
+        <app-sidebar></app-sidebar>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+        <!-- <app-footer></app-footer> -->
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </ng-template>
+</div>
+
+<ng-template #hideLayout class="public-screen">
+  <router-outlet></router-outlet>
+</ng-template>

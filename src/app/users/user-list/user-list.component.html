@@ -1,0 +1,83 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="container-fluid">
+    <div class="row my-4 header-title">
+        <h2>User List</h2>
+        <hr class="m-0">
+    </div>
+</div>
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md 12 d-flex justify-content-between align-items-center">
+            <button mat-raised-button class="create-user-btn text-white"
+                (click)="navigateToUserForm('create','')">Create User <mat-icon>add</mat-icon></button>
+            <mat-form-field appearance="outline" class="search-user">
+                <mat-label>Search User</mat-label>
+                <input [readonly]="false" matInput (keyup)="applyFilter($event)" autocomplete="off" />
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-md 12">
+            <div>
+                <table mat-table [dataSource]="userListDataSource" matSort class="mat-elevation-z8 user-list-table">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+                            User Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mobile_number">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            sortActionDescription="Sort by mobile_number">
+                            Mobile No
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.mobile_number}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
+                            Email
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="is_active">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by is_active">
+                            Activate / Deactivate
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <!-- <button mat-icon-button class="act-deact-btn" >Activate</button> -->
+                            <button mat-stroked-button [ngClass]="element?.is_active ? 'active-btn' : 'deactive-btn'"
+                                (click)="toggleActive(element)">{{ element?.is_active ? 'Activated' : 'Deactivated'
+                                }}</button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+                            Action
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="action-btns">
+                                <button mat-icon-button class="edit-btn"
+                                    (click)="navigateToUserForm('edit',element._id)"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button class="delete-btn"
+                                    (click)="deleteUser(element)"><mat-icon>delete</mat-icon></button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="userListDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: userListDisplayedColumns;"></tr>
+                </table>
+            </div>
+            <mat-paginator [pageSize]="userTablePagination.pageSize" [length]="userTablePagination.Count"
+                [pageIndex]="userTablePagination.pageIndex" [pageSizeOptions]="userTablePagination.pageSizeOptions"
+                (page)="onPaginateChange($event)" showFirstLastButtons aria-label="Select page of periodic elements"
+                class="mat-paginator">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

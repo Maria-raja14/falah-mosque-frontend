@@ -1,0 +1,47 @@
+<mat-nav-list *ngIf="sideMenuList?.length"  class="sidebar-list">
+  <div *ngFor="let sideMenu of sideMenuList" class="parent-menu">
+    <mat-list-item (click)="sideMenu?.subMenu?.length ? ExpandCollapseSideMenu(sideMenu) : sideMenuNavigate(sideMenu.url)">
+      <img *ngIf="sideMenu?.icon?.src" [src]="sideMenu.icon.src" [alt]="sideMenu.icon.src" class="me-2" [ngClass]="[sideMenu?.name == 'Dashboard' ? 'dasboard-icon' : '',  sideMenu?.name == 'Mosque Management' ? 'masjidh-icon' : '', sideMenu?.name == 'User Management' ? 'user-icon' : '']">
+      
+      <span class="menu-width" *ngIf="sideMenu?.name">{{ sideMenu?.name }}</span>
+      <mat-icon *ngIf="sideMenu?.subMenu?.length" class="menu-icon" [ngClass]="{'rotated' : sideMenu.isExpand}">expand_more
+      </mat-icon>
+    </mat-list-item>
+    <div *ngIf="sideMenu?.subMenu?.length && sideMenu.isExpand">
+      <div *ngFor="let sideSubMenu of sideMenu.subMenu" class="sub-menu" [ngClass]="{'expanded' : sideMenu.isExpand}">
+        <mat-list-item (click)="sideSubMenu?.subSubMenu?.length ? ExpandCollapseSideMenu(sideSubMenu) : sideMenuNavigate(sideSubMenu?.url)">
+          <span class="menu-width" *ngIf="sideSubMenu?.name">{{ sideSubMenu?.name }}</span>
+          <mat-icon *ngIf="sideSubMenu?.subSubMenu?.length" class="menu-icon"
+            [ngClass]="{'rotated' : sideSubMenu?.isExpand}">expand_more</mat-icon>
+        </mat-list-item>
+        <div *ngIf="sideSubMenu?.subSubMenu?.length && sideSubMenu?.isExpand">
+          <div *ngFor="let sideSubSubMenu of sideSubMenu?.subSubMenu" class="sub-menu"
+            [ngClass]="{'expanded' : sideSubMenu?.isExpand}">
+            <mat-list-item (click)="sideMenuNavigate(sideSubSubMenu?.url)"> 
+              <span class="menu-width" *ngIf="sideSubSubMenu?.name">{{ sideSubSubMenu?.name }}</span>  
+            </mat-list-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-nav-list>
+
+
+<!-- <mat-nav-list *ngIf="listComp?.length"  class="sidebar-list">
+  <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ listTemp: listComp }"></ng-container>
+</mat-nav-list>
+<ng-template #recursiveListTmpl let-list="listTemp">
+  <mat-list-item *ngFor="let item of list">
+    <div (click)="item.children.length ? toggle(item) : ''">
+      <span class="menu-width" *ngIf="item?.title">{{ item?.title }}</span>
+      <mat-icon *ngIf="item?.children?.length" class="menu-icon" [ngClass]="{'rotated' : item.expand}">expand_more
+      </mat-icon>
+    </div>
+
+    <mat-list-item *ngIf="item.children.length > 0 && item.expand == true">
+      <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ listTemp: item.children }"></ng-container>
+    </mat-list-item>
+  </mat-list-item>
+  
+</ng-template> -->

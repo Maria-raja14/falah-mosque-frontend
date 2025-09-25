@@ -1,0 +1,158 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="container-fluid">
+  <div class="row my-4 header-title">
+    <h2>{{ isEdit ? "Edit Mosque" : "Create Mosque" }}</h2>
+    <hr class="m-0" />
+  </div>
+</div>
+<div class="container">
+  <div class="row my-4">
+    <div class="col-md-12">
+      <mat-card class="my-0 mx-auto w-60per">
+        <mat-card-content>
+          <form [formGroup]="MosqueForm" #MosqueFormDirective="ngForm"
+            (ngSubmit)="submitMosqueForm(MosqueFormDirective)" class="mosque-form">
+            <div class="d-flex flex-wrap">
+              <mat-form-field appearance="outline" class="user-form-field">
+                <mat-label>Mosque Name</mat-label>
+                <input type="text" matInput formControlName="name" />
+                <mat-error>Mosque Name is required</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="user-form-field">
+                <mat-label>Mobile No</mat-label>
+                <input type="number" matInput formControlName="mobile_number"
+                  onKeyPress="if(this.value.length==10) return false; return event.charCode >= 48 && event.charCode <= 57 " />
+
+                <mat-error *ngIf="MosqueForm?.get('mobile_number')?.hasError('required')">Mobile No is
+                  required</mat-error>
+                <mat-error *ngIf="MosqueForm?.get('mobile_number')?.hasError('pattern')">Mobile No must have 10
+                  digits</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="user-form-field">
+                <mat-label>Latitude</mat-label>
+                <input type="number" matInput formControlName="mosque_latitude"
+                  onKeyPress="return event.charCode >= 48 && event.charCode <= 57 " />
+                <mat-error>Latitude is required</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="user-form-field">
+                <mat-label>Longitude</mat-label>
+                <input type="number" matInput formControlName="mosque_longitude"
+                  onKeyPress="return event.charCode >= 48 && event.charCode <= 57 " />
+                <mat-error>Longitude is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="user-form-field" style="width: 100%">
+                <mat-label>Address</mat-label>
+                <textarea matInput formControlName="mosque_address"
+                  placeholder="No 3D, M.S. Tower, Convent road, Cantonment, Trichy-1" rows="3" class=""></textarea>
+                <mat-error>Address is required</mat-error>
+              </mat-form-field>
+
+              <!-- <div class="mb-4 adhan-audio"> -->
+              <div class="mb-2_5rem user-form-field">
+                <div class="d-flex justify-content-between">
+                  <label class="adhan-audio-label">Fajr Adhan Audio</label>
+                  <label *ngIf="this.mosqueData?.fajr_adhan_name" class="has-adhan-audio">Has Fajr Adhan Audio</label>
+                </div>
+                <input class="form-control" type="file" (change)="readAudioFile($event, 'fajr_adhan')"
+                  accept="audio/mpeg, audio/mp4, audio/ogg" />
+              </div>
+
+              <div class="mb-2_5rem user-form-field">
+                <div class="d-flex justify-content-between">
+                  <label class="adhan-audio-label"> Adhan Audio</label>
+                  <label *ngIf="this.mosqueData?.adhan_name" class="has-adhan-audio">Has Adhan Audio</label>
+                </div>
+                <input class="form-control" type="file" (change)="readAudioFile($event, 'adhan')"
+                  accept="audio/mpeg, audio/mp4, audio/ogg" />
+              </div>
+              <!-- <div class="ms-auto mb-2 me-3 d-flex" (click)="addCredentials()">
+                 <i
+                  class="fa fa-plus-square fa-2x"
+                  aria-hidden="true"
+                  
+                ></i>
+                <span class="pt-1 ps-2 fw-bold">Add</span>
+              </div> -->
+              <div class="w-100 p-3">
+                <button class="btn btn-primary text-white float-end" type="button" (click)="addCredentials()">
+                  Add
+                </button>
+              </div>
+              <!-- </div> -->
+              <!-- formarray implementation -->
+              <div formArrayName="mosque_credentials" class="w-100"
+                *ngFor="let item of credentials.controls; let i = index">
+                <div [formGroupName]="i">
+                  <div class="w-100 p-3" (click)="delete_user(i)">
+                    <mat-icon style="
+                        background: red;
+                        color: white;
+                        border-radius: 50%;
+                        padding: 3px;
+                        height: 30px;
+                        width: 30px;
+                        cursor: pointer;
+                      ">delete_outline</mat-icon>
+                  </div>
+
+                  <mat-form-field appearance="outline" class="user-form-field pb-1" style="width: 98% !important">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email" matAutoComplete="off" />
+                    <mat-error *ngIf="item.get('email')?.errors?.['required']">Email is required</mat-error>
+                    <mat-error *ngIf="item.get('email')?.errors?.['email']">Email is invalid</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="user-form-field" >
+                    <mat-label>Password</mat-label>
+                    <input [type]="showPassword ? 'text' : 'password'" name="password" matInput required
+                      formControlName="password" />
+                    <mat-icon matSuffix (click)="togglePasswordVisibility('password')">
+                      {{
+                      showPassword ? "visibility" : "visibility_off"
+                      }}</mat-icon>
+                    <mat-error *ngIf="
+                        item?.get('password')?.errors?.['minlength'] &&
+                        !item.get('password')?.errors?.['required']
+                      ">
+                      Minimum password length is 6</mat-error>
+                    <mat-error *ngIf="item?.get('password')?.errors?.['required']">Password is required
+                    </mat-error>
+                    <mat-error
+                      *ngIf="item?.get('password')?.value != '' && item?.get('password')?.errors?.['MatchPassword']"
+                    >
+                      Password does not match</mat-error
+                    >
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="user-form-field">
+                    <mat-label>Confirm Password</mat-label>
+                    <input [type]="showConfirmPassword ? 'text' : 'password'" name="password" matInput
+                      formControlName="confirm_password" />
+                    <mat-icon matSuffix (click)="togglePasswordVisibility('confirm_password')">
+                      {{
+                      showConfirmPassword ? "visibility" : "visibility_off"
+                      }}</mat-icon>
+                    <mat-error *ngIf="item?.get('confirm_password')?.value == ''">Confirm Password is required
+                    </mat-error>
+                    <mat-error
+                      *ngIf="item?.get('confirm_password')?.value != '' && item?.get('confirm_password')?.errors?.['MatchPassword']">
+                      Password does not match</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <mat-card-actions class="justify-content-center MosqueForm-card-actions">
+              <div class="">
+                <button type="submit" mat-raised-button class="userfrom-sub-btn text-white">
+                  Submit
+                </button>
+              </div>
+            </mat-card-actions>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,178 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="container-fluid">
+  <div class="row my-4 header-title">
+    <h2>Mosque Salah Info List</h2>
+    <hr class="m-0" />
+  </div>
+</div>
+<div class="container">
+  <div class="row my-4" >
+    <div class="col-md 12 d-flex justify-content-between align-items-center">
+      <button
+        mat-raised-button
+        class="create-user-btn text-white"
+        [disabled]="createSalah"
+        (click)="navigateToMosqueSalahInfoForm('create', '')"
+      >
+        Create Mosque Salah Info<mat-icon>add</mat-icon>
+      </button>
+      <mat-form-field appearance="outline" class="search-user">
+        <mat-label>Search Mosque Salah Info</mat-label>
+        <input
+          [readonly]="false"
+          matInput
+          (keyup)="applyFilter($event)"
+          autocomplete="off"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row my-4">
+    <div class="col-md-12">
+      <div>
+        <table
+          mat-table
+          [dataSource]="mosqueSalahInfoListDataSource"
+          matSort
+          class="mat-elevation-z8 user-list-table"
+        >
+          <ng-container matColumnDef="mosque_name">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by mosque_name"
+            >
+              Mosque Name
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <span>{{ element?.mosque?.name }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fajr_adhan_namaz_time">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by fajr_adhan_namaz_time"
+            >
+              Fajr Time (Adhan/Namaz)
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.fajr_adhan + "/" + element?.fajr_namaz }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dhuhr_adhan_namaz_time">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by dhuhr_adhan_namaz_time"
+            >
+              Dhuhr Time (Adhan/Namaz)
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.dhuhr_adhan + " / " + element?.dhuhr_namaz }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="asr_adhan_namaz_time">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by asr_adhan_namaz_time"
+            >
+              Asr Time (Adhan/Namaz)
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.asr_adhan + " / " + element?.asr_namaz }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="maghrib_adhan_namaz_time">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by maghrib_adhan_namaz_time"
+            >
+              Maghrib Time (Adhan/Namaz)
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.maghrib_adhan + " / " + element?.maghrib_namaz }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="isha_adhan_namaz_time">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by isha_adhan_namaz_time"
+            >
+              Isha Time (Adhan/Namaz)
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.isha_adhan + " / " + element?.isha_namaz }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by action"
+            >
+              Action
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="action-btns">
+                <button
+                  mat-icon-button
+                  class="edit-btn"
+                  (click)="navigateToMosqueSalahInfoForm('edit', element?._id)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  class="delete-btn"
+                  *ngIf="this.user_type.role == 'super_admin'"
+                  (click)="deleteMosqueSalahInfo(element)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="mosqueSalahInfoListDisplayedColumns"
+          >
+        </tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: mosqueSalahInfoListDisplayedColumns"
+          ></tr>
+        </table>
+      </div>
+      <mat-paginator
+        [pageSize]="mosqueSalahInfoTablePagination.pageSize"
+        [length]="mosqueSalahInfoTablePagination.Count"
+        [pageIndex]="mosqueSalahInfoTablePagination.pageIndex"
+        [pageSizeOptions]="mosqueSalahInfoTablePagination.pageSizeOptions"
+        (page)="onPaginateChange($event)"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+        class="mat-paginator"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>
