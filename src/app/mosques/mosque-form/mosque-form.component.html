@@ -2,153 +2,208 @@
 
 <div class="container-fluid">
   <div class="row my-4 header-title">
-    <h2>{{ isEdit ? "Edit Mosque" : "Create Mosque" }}</h2>
-    <hr class="m-0" />
+    <div class="col-12">
+      <h2 class="page-title">{{ isEdit ? "Edit Mosque" : "Create Mosque" }}</h2>
+      <p class="page-subtitle">{{ isEdit ? "Update mosque details and settings" : "Add a new mosque to the system" }}</p>
+    </div>
   </div>
 </div>
+
 <div class="container">
-  <div class="row my-4">
-    <div class="col-md-12">
-      <mat-card class="my-0 mx-auto w-60per">
+  <div class="row justify-content-center my-4">
+    <div class="col-lg-10 col-xl-8">
+      <mat-card class="mosque-form-card shadow-sm">
+        <mat-card-header class="mosque-form-header">
+          <mat-card-title>
+            <mat-icon class="me-2">mosque</mat-icon>
+            Mosque Information
+          </mat-card-title>
+        </mat-card-header>
+        
         <mat-card-content>
-          <form [formGroup]="MosqueForm" #MosqueFormDirective="ngForm"
-            (ngSubmit)="submitMosqueForm(MosqueFormDirective)" class="mosque-form">
-            <div class="d-flex flex-wrap">
-              <mat-form-field appearance="outline" class="user-form-field">
-                <mat-label>Mosque Name</mat-label>
-                <input type="text" matInput formControlName="name" />
-                <mat-error>Mosque Name is required</mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="user-form-field">
-                <mat-label>Mobile No</mat-label>
-                <input type="number" matInput formControlName="mobile_number"
-                  onKeyPress="if(this.value.length==10) return false; return event.charCode >= 48 && event.charCode <= 57 " />
-
-                <mat-error *ngIf="MosqueForm?.get('mobile_number')?.hasError('required')">Mobile No is
-                  required</mat-error>
-                <mat-error *ngIf="MosqueForm?.get('mobile_number')?.hasError('pattern')">Mobile No must have 10
-                  digits</mat-error>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="user-form-field">
-                <mat-label>Latitude</mat-label>
-                <input type="number" matInput formControlName="mosque_latitude"
-                  onKeyPress="return event.charCode >= 48 && event.charCode <= 57 " />
-                <mat-error>Latitude is required</mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="user-form-field">
-                <mat-label>Longitude</mat-label>
-                <input type="number" matInput formControlName="mosque_longitude"
-                  onKeyPress="return event.charCode >= 48 && event.charCode <= 57 " />
-                <mat-error>Longitude is required</mat-error>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="user-form-field" style="width: 100%">
-                <mat-label>Address</mat-label>
-                <textarea matInput formControlName="mosque_address"
-                  placeholder="No 3D, M.S. Tower, Convent road, Cantonment, Trichy-1" rows="3" class=""></textarea>
-                <mat-error>Address is required</mat-error>
-              </mat-form-field>
-
-              <!-- <div class="mb-4 adhan-audio"> -->
-              <div class="mb-2_5rem user-form-field">
-                <div class="d-flex justify-content-between">
-                  <label class="adhan-audio-label">Fajr Adhan Audio</label>
-                  <label *ngIf="this.mosqueData?.fajr_adhan_name" class="has-adhan-audio">Has Fajr Adhan Audio</label>
-                </div>
-                <input class="form-control" type="file" (change)="readAudioFile($event, 'fajr_adhan')"
-                  accept="audio/mpeg, audio/mp4, audio/ogg" />
-              </div>
-
-              <div class="mb-2_5rem user-form-field">
-                <div class="d-flex justify-content-between">
-                  <label class="adhan-audio-label"> Adhan Audio</label>
-                  <label *ngIf="this.mosqueData?.adhan_name" class="has-adhan-audio">Has Adhan Audio</label>
-                </div>
-                <input class="form-control" type="file" (change)="readAudioFile($event, 'adhan')"
-                  accept="audio/mpeg, audio/mp4, audio/ogg" />
-              </div>
-              <!-- <div class="ms-auto mb-2 me-3 d-flex" (click)="addCredentials()">
-                 <i
-                  class="fa fa-plus-square fa-2x"
-                  aria-hidden="true"
-                  
-                ></i>
-                <span class="pt-1 ps-2 fw-bold">Add</span>
-              </div> -->
-              <div class="w-100 p-3">
-                <button class="btn btn-primary text-white float-end" type="button" (click)="addCredentials()">
-                  Add
-                </button>
-              </div>
-              <!-- </div> -->
-              <!-- formarray implementation -->
-              <div formArrayName="mosque_credentials" class="w-100"
-                *ngFor="let item of credentials.controls; let i = index">
-                <div [formGroupName]="i">
-                  <div class="w-100 p-3" (click)="delete_user(i)">
-                    <mat-icon style="
-                        background: red;
-                        color: white;
-                        border-radius: 50%;
-                        padding: 3px;
-                        height: 30px;
-                        width: 30px;
-                        cursor: pointer;
-                      ">delete_outline</mat-icon>
-                  </div>
-
-                  <mat-form-field appearance="outline" class="user-form-field pb-1" style="width: 98% !important">
-                    <mat-label>Email</mat-label>
-                    <input type="email" matInput formControlName="email" matAutoComplete="off" />
-                    <mat-error *ngIf="item.get('email')?.errors?.['required']">Email is required</mat-error>
-                    <mat-error *ngIf="item.get('email')?.errors?.['email']">Email is invalid</mat-error>
+          <form [formGroup]="MosqueForm" #MosqueFormDirective="ngForm" 
+                (ngSubmit)="submitMosqueForm(MosqueFormDirective)" class="mosque-form">
+            <div class="form-section">
+              <h3 class="section-title">Basic Details</h3>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Mosque Name</mat-label>
+                    <input type="text" matInput formControlName="name" />
+                    <mat-icon matSuffix>account_balance</mat-icon>
+                    <mat-error>Mosque Name is required</mat-error>
                   </mat-form-field>
-
-                  <mat-form-field appearance="outline" class="user-form-field" >
-                    <mat-label>Password</mat-label>
-                    <input [type]="showPassword ? 'text' : 'password'" name="password" matInput required
-                      formControlName="password" />
-                    <mat-icon matSuffix (click)="togglePasswordVisibility('password')">
-                      {{
-                      showPassword ? "visibility" : "visibility_off"
-                      }}</mat-icon>
-                    <mat-error *ngIf="
-                        item?.get('password')?.errors?.['minlength'] &&
-                        !item.get('password')?.errors?.['required']
-                      ">
-                      Minimum password length is 6</mat-error>
-                    <mat-error *ngIf="item?.get('password')?.errors?.['required']">Password is required
-                    </mat-error>
-                    <mat-error
-                      *ngIf="item?.get('password')?.value != '' && item?.get('password')?.errors?.['MatchPassword']"
-                    >
-                      Password does not match</mat-error
-                    >
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" class="user-form-field">
-                    <mat-label>Confirm Password</mat-label>
-                    <input [type]="showConfirmPassword ? 'text' : 'password'" name="password" matInput
-                      formControlName="confirm_password" />
-                    <mat-icon matSuffix (click)="togglePasswordVisibility('confirm_password')">
-                      {{
-                      showConfirmPassword ? "visibility" : "visibility_off"
-                      }}</mat-icon>
-                    <mat-error *ngIf="item?.get('confirm_password')?.value == ''">Confirm Password is required
-                    </mat-error>
-                    <mat-error
-                      *ngIf="item?.get('confirm_password')?.value != '' && item?.get('confirm_password')?.errors?.['MatchPassword']">
-                      Password does not match</mat-error>
+                </div>
+                
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Mobile No</mat-label>
+                    <input type="number" matInput formControlName="mobile_number"
+                      onKeyPress="if(this.value.length==10) return false; return event.charCode >= 48 && event.charCode <= 57" />
+                    <mat-icon matSuffix>phone</mat-icon>
+                    <mat-error *ngIf="MosqueForm?.get('mobile_number')?.hasError('required')">Mobile No is required</mat-error>
+                    <mat-error *ngIf="MosqueForm?.get('mobile_number')?.hasError('pattern')">Mobile No must have 10 digits</mat-error>
                   </mat-form-field>
                 </div>
               </div>
             </div>
-            <mat-card-actions class="justify-content-center MosqueForm-card-actions">
-              <div class="">
-                <button type="submit" mat-raised-button class="userfrom-sub-btn text-white">
-                  Submit
+
+            <div class="form-section">
+              <h3 class="section-title">Location Information</h3>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Latitude</mat-label>
+                    <input type="number" matInput formControlName="mosque_latitude"
+                      onKeyPress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <mat-icon matSuffix>location_on</mat-icon>
+                    <mat-error>Latitude is required</mat-error>
+                  </mat-form-field>
+                </div>
+                
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Longitude</mat-label>
+                    <input type="number" matInput formControlName="mosque_longitude"
+                      onKeyPress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <mat-icon matSuffix>location_on</mat-icon>
+                    <mat-error>Longitude is required</mat-error>
+                  </mat-form-field>
+                </div>
+                
+                <div class="col-12">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput formControlName="mosque_address"
+                      placeholder="No 3D, M.S. Tower, Convent road, Cantonment, Trichy-1" 
+                      rows="3"></textarea>
+                    <mat-error>Address is required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3 class="section-title">Audio Settings</h3>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="audio-upload-field">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <label class="audio-label">
+                        <mat-icon class="me-1">volume_up</mat-icon>
+                        Fajr Adhan Audio
+                      </label>
+                      <label *ngIf="mosqueData?.fajr_adhan_name" class="current-audio">
+                        Current: {{ mosqueData?.fajr_adhan_name }}
+                      </label>
+                    </div>
+                    <div class="file-input-container">
+                      <input class="form-control" type="file" (change)="readAudioFile($event, 'fajr_adhan')"
+                        accept="audio/mpeg, audio/mp4, audio/ogg" />
+                    </div>
+                    <small class="text-muted" *ngIf="isEdit">Leave empty to keep current audio file</small>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="audio-upload-field">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <label class="audio-label">
+                        <mat-icon class="me-1">volume_up</mat-icon>
+                        Adhan Audio
+                      </label>
+                      <label *ngIf="mosqueData?.adhan_name" class="current-audio">
+                        Current: {{ mosqueData?.adhan_name }}
+                      </label>
+                    </div>
+                    <div class="file-input-container">
+                      <input class="form-control" type="file" (change)="readAudioFile($event, 'adhan')"
+                        accept="audio/mpeg, audio/mp4, audio/ogg" />
+                    </div>
+                    <small class="text-muted" *ngIf="isEdit">Leave empty to keep current audio file</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="section-title m-0">SubAdmin Credentials</h3>
+                <button class="btn btn-primary" type="button" (click)="addCredentials()">
+                  <mat-icon class="me-1">person_add</mat-icon>
+                  Add SubAdmin
                 </button>
               </div>
+              
+              <div formArrayName="mosque_credentials" 
+                   *ngFor="let item of credentials.controls; let i = index">
+                <div [formGroupName]="i" class="credential-group">
+                  <div class="credential-header" *ngIf="credentials.length > 1">
+                    <h4 class="credential-title">SubAdmin #{{i+1}}</h4>
+                    <button type="button" class="btn btn-sm btn-outline-danger" (click)="delete_user(i)">
+                      <mat-icon>delete_outline</mat-icon>
+                      Remove
+                    </button>
+                  </div>
+                  
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Email</mat-label>
+                        <input type="email" matInput formControlName="email" matAutoComplete="off" />
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error *ngIf="item.get('email')?.errors?.['required']">Email is required</mat-error>
+                        <mat-error *ngIf="item.get('email')?.errors?.['email']">Email is invalid</mat-error>
+                      </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-6" *ngIf="!isEdit">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Password</mat-label>
+                        <input [type]="showPasswords[i]?.password ? 'text' : 'password'" 
+                               name="password" matInput formControlName="password" required />
+                        <button mat-icon-button matSuffix (click)="togglePasswordVisibility(i, 'password')" type="button">
+                          <mat-icon>{{ showPasswords[i]?.password ? "visibility" : "visibility_off" }}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="item?.get('password')?.errors?.['minlength']">
+                          Minimum password length is 6
+                        </mat-error>
+                        <mat-error *ngIf="item?.get('password')?.errors?.['required']">
+                          Password is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-6" *ngIf="!isEdit">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Confirm Password</mat-label>
+                        <input [type]="showPasswords[i]?.confirm_password ? 'text' : 'password'" 
+                               name="confirm_password" matInput formControlName="confirm_password" required />
+                        <button mat-icon-button matSuffix (click)="togglePasswordVisibility(i, 'confirm_password')" type="button">
+                          <mat-icon>{{ showPasswords[i]?.confirm_password ? "visibility" : "visibility_off" }}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="item?.get('confirm_password')?.errors?.['required']">
+                          Confirm Password is required
+                        </mat-error>
+                        <mat-error *ngIf="item?.get('confirm_password')?.errors?.['MatchPassword']">
+                          Password does not match
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <mat-card-actions class="form-actions">
+              <button type="button" mat-stroked-button class="me-2" routerLink="/mosques">
+                <mat-icon class="me-1">arrow_back</mat-icon>
+                Cancel
+              </button>
+              <button type="submit" mat-raised-button class="submit-btn">
+                <mat-icon class="me-1">{{ isEdit ? 'save' : 'add' }}</mat-icon>
+                {{ isEdit ? 'Update Mosque' : 'Create Mosque' }}
+              </button>
             </mat-card-actions>
           </form>
         </mat-card-content>

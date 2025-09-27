@@ -1,44 +1,241 @@
-.header-title
-  box-shadow: #00000024 0px 3px 3px
+/* Mosque Form Component Styles */
+.container-fluid
+  .header-title
+    box-shadow: #00000024 0px 3px 3px
+    padding: 1rem 0
+    
+    .page-title
+      font-size: 2rem
+      font-weight: 600
+      color: #333
+      margin-bottom: 0.5rem
+    
+    .page-subtitle
+      font-size: 1rem
+      color: #666
+      margin: 0
+
+.mosque-form-card
+  border-radius: 12px
+  border: none
+  
+  .mosque-form-header
+    background: linear-gradient(135deg, #662FBE 0%, #8a5ce6 100%)
+    color: white
+    padding: 1.5rem
+    border-radius: 12px 12px 0 0
+    
+    mat-card-title
+      display: flex
+      align-items: center
+      font-size: 1.5rem
+      font-weight: 500
+      margin: 0
+      
+      mat-icon
+        font-size: 1.75rem
+        width: 1.75rem
+        height: 1.75rem
+
+  mat-card-content
+    padding: 2rem
+
+.mosque-form
+  .form-section
+    margin-bottom: 2.5rem
+    padding-bottom: 1.5rem
+    border-bottom: 1px solid #e0e0e0
+    
+    &:last-of-type
+      border-bottom: none
+      margin-bottom: 0
+    
+    .section-title
+      font-size: 1.25rem
+      font-weight: 500
+      color: #662FBE
+      margin-bottom: 1.5rem
+      display: flex
+      align-items: center
+      
+      &::before
+        content: ""
+        display: inline-block
+        width: 4px
+        height: 1.25rem
+        background: #662FBE
+        margin-right: 0.75rem
+        border-radius: 2px
+
+/* Form Fields Styling */
+mat-form-field
+  &.mat-form-field-appearance-outline
+    .mat-form-field-outline
+      color: #ddd
+    
+    .mat-form-field-outline-thick
+      color: #662FBE
+    
+    &.mat-focused
+      .mat-form-field-outline-thick
+        color: #662FBE
+      
+      .mat-form-field-label
+        color: #662FBE
+  
+  .mat-input-element
+    font-size: 1rem
+  
+  mat-icon.mat-icon
+    color: #666
+
+/* Audio Upload Fields */
+.audio-upload-field
+  .audio-label
+    display: flex
+    align-items: center
+    font-weight: 500
+    color: #333
+    margin-bottom: 0.5rem
+    
+    mat-icon
+      color: #662FBE
+      font-size: 1.25rem
+      width: 1.25rem
+      height: 1.25rem
+  
+  .current-audio
+    font-size: 0.875rem
+    color: #33c933
+    font-weight: 500
+    background: #f0fff0
+    padding: 0.25rem 0.5rem
+    border-radius: 4px
+  
+  .file-input-container
+    margin-bottom: 0.5rem
+    
+    .form-control
+      border: 1px solid #ddd
+      border-radius: 4px
+      padding: 0.5rem
+      font-size: 0.875rem
+      
+      &:focus
+        border-color: #662FBE
+        box-shadow: 0 0 0 0.2rem rgba(102, 47, 190, 0.25)
+  
+  small.text-muted
+    font-size: 0.75rem
+    color: #666
+
+/* Credentials Section */
+.credential-group
+  background: #f8f9fa
+  border-radius: 8px
+  padding: 1.5rem
+  margin-bottom: 1.5rem
+  border: 1px solid #e9ecef
+  
+  .credential-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 1rem
+    padding-bottom: 1rem
+    border-bottom: 1px solid #dee2e6
+    
+    .credential-title
+      font-size: 1.1rem
+      font-weight: 500
+      color: #333
+      margin: 0
+    
+    .btn-outline-danger
+      border-color: #dc3545
+      color: #dc3545
+      
+      &:hover
+        background-color: #dc3545
+        color: white
+      
+      mat-icon
+        font-size: 1.125rem
+        width: 1.125rem
+        height: 1.125rem
+
+/* Form Actions */
+.form-actions
+  display: flex
+  justify-content: flex-end
+  gap: 1rem
+  padding: 1.5rem 0 0
+  margin-top: 2rem
+  border-top: 1px solid #e0e0e0
+  
+  .mat-stroked-button
+    border-color: #662FBE
+    color: #662FBE
+    
+    &:hover
+      background-color: rgba(102, 47, 190, 0.04)
+  
+  .submit-btn
+    background-color: #662FBE !important
+    color: white
+    
+    &:hover
+      background-color: #5a2aa8 !important
+      transform: translateY(-1px)
+      box-shadow: 0 4px 8px rgba(102, 47, 190, 0.3)
+    
+    &:active
+      transform: translateY(0)
+
+/* Utility Classes */
 .w-60per
   width: 60%
+
 .w-90per
   width: 90%
+
 .w-100per
   width: 100%
+
 .mb-2_5rem
   margin-bottom: 2.5rem
-.user-form-field
-  width: 48%
-  margin-right: 2%
-  .adhan-audio-label
-    font-size: 13px
-    color: #7e7d7d
-    font-weight: 500
-    margin-bottom: 0 !important
-  .has-adhan-audio
-    font-size: 13px
-    font-weight: 500
-    margin-bottom: 0 !important
-    color: #33c933  
 
-.userform-card
-    // width: 30%
-.userform-card-header
-  justify-content: center
-.userform-card-content
-  padding-top: 1.3rem
-.userform-card-actions
-  margin: 0
+/* Password Visibility Toggle */
+button[mat-icon-button]
+  &.mat-icon-button
+    width: 2.5rem
+    height: 2.5rem
+    
+    mat-icon
+      font-size: 1.25rem
+      width: 1.25rem
+      height: 1.25rem
+      color: #666
+    
+    &:hover mat-icon
+      color: #662FBE
 
+/* Material Overrides */
 ::ng-deep
   .mat-mdc-raised-button:not(:disabled)
     background-color: #662FBE !important
+  
   .mat-mdc-form-field-textarea-control
     min-height: 30px !important
     max-height: 100px !important
+  
+  .mat-form-field-appearance-outline .mat-form-field-outline
+    color: rgba(0, 0, 0, 0.12)
+  
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick
+    color: #662FBE
 
-
+/* Number Input Styling */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button
@@ -49,6 +246,35 @@ input::-webkit-inner-spin-button
 input[type=number]
   -moz-appearance: textfield
 
+/* Responsive Design */
+@media only screen and (max-width: 768px)
+  .mosque-form-card mat-card-content
+    padding: 1.5rem
+  
+  .form-actions
+    flex-direction: column
+    
+    button
+      width: 100%
+      margin-bottom: 0.5rem
+  
+  .credential-group .credential-header
+    flex-direction: column
+    align-items: flex-start
+    gap: 1rem
+    
+    .btn-outline-danger
+      align-self: flex-end
+
 @media only screen and (max-width: 426px)
   .w-60per
     width: 100% !important
+  
+  .mosque-form-card mat-card-content
+    padding: 1rem
+  
+  .container
+    padding: 0 0.5rem
+  
+  .form-section .section-title
+    font-size: 1.1rem

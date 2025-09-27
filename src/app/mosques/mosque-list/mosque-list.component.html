@@ -8,8 +8,8 @@
 </div>
 
 <div class="container">
-  <div *ngIf="this.user_type.role == 'super_admin'" class="row my-4">
-    <div class="col-md 12 d-flex justify-content-between align-items-center">
+  <div *ngIf="user_type?.role == 'super_admin'" class="row my-4">
+    <div class="col-md-12 d-flex justify-content-between align-items-center">
       <button
         mat-raised-button
         class="create-user-btn text-white"
@@ -20,80 +20,56 @@
       <mat-form-field appearance="outline" class="search-user">
         <mat-label>Search Mosque</mat-label>
         <input
-          [readonly]="false"
           matInput
           (keyup)="applyFilter($event)"
           autocomplete="off"
+          placeholder="Search..."
         />
       </mat-form-field>
     </div>
   </div>
+  
   <div class="row my-4">
-    <div class="col-md 12">
-      <div>
+    <div class="col-md-12">
+      <div *ngIf="mosqueListDataSource.data.length === 0" class="no-data-message">
+        <p>No mosques found.</p>
+      </div>
+      
+      <div *ngIf="mosqueListDataSource.data.length > 0">
         <table
           mat-table
           [dataSource]="mosqueListDataSource"
           matSort
           class="mat-elevation-z8 user-list-table"
         >
+        
           <ng-container matColumnDef="name">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              sortActionDescription="Sort by name"
-            >
-              Mosque Name
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mosque Name</th>
+            <td mat-cell *matCellDef="let element">{{ element?.name || 'N/A' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="mobile_number">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              sortActionDescription="Sort by mobile_number"
-            >
-              Mobile No
-            </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No</th>
+            <td mat-cell *matCellDef="let element">{{ element?.mobile_number || 'N/A' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
             <td mat-cell *matCellDef="let element">
-              {{ element?.mobile_number }}
+              <span *ngIf="element?.users?.[0]?.email">{{ element.users[0].email }}</span>
+              <span *ngIf="element?.users?.[1]?.email"><br>{{ element.users[1].email }}</span>
+              <span *ngIf="!element?.users?.[0]?.email && !element?.users?.[1]?.email">N/A</span>
             </td>
           </ng-container>
 
-     <!-- Email Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-          <td mat-cell *matCellDef="let element"> {{ element?.email || 'N/A' }} </td>
-        </ng-container>
-
           <ng-container matColumnDef="mosque_address">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              sortActionDescription="Sort by mosque_address"
-            >
-              Address
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element?.mosque_address }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+            <td mat-cell *matCellDef="let element">{{ element?.mosque_address || 'N/A' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="is_active">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              sortActionDescription="Sort by is_active"
-            >
-              Activate / Deactivate
-            </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
             <td mat-cell *matCellDef="let element">
-              <!-- <button mat-icon-button class="act-deact-btn" >Activate</button> -->
               <button
                 mat-stroked-button
                 [ngClass]="element?.is_active ? 'active-btn' : 'deactive-btn'"
@@ -105,28 +81,23 @@
           </ng-container>
 
           <ng-container matColumnDef="action">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              sortActionDescription="Sort by symbol"
-            >
-              Action
-            </th>
+            <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let element">
               <div class="action-btns">
                 <button
                   mat-icon-button
                   class="edit-btn"
                   (click)="navigateToMosqueForm('edit', element._id)"
+                  title="Edit"
                 >
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button
-                  *ngIf="this.user_type.role == 'super_admin'"
+                  *ngIf="user_type?.role == 'super_admin'"
                   mat-icon-button
                   class="delete-btn"
                   (click)="deleteMosque(element)"
+                  title="Delete"
                 >
                   <mat-icon>delete</mat-icon>
                 </button>
@@ -135,23 +106,21 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="mosqueListDisplayedColumns"></tr>
-          <tr
-            mat-row
-            *matRowDef="let row; columns: mosqueListDisplayedColumns"
-          ></tr>
+          <tr mat-row *matRowDef="let row; columns: mosqueListDisplayedColumns"></tr>
         </table>
+
+        <mat-paginator
+          [length]="mosqueTablePagination.Count"
+          [pageSize]="mosqueTablePagination.pageSize"
+          [pageIndex]="mosqueTablePagination.pageIndex"
+          [pageSizeOptions]="mosqueTablePagination.pageSizeOptions"
+          (page)="onPaginateChange($event)"
+          showFirstLastButtons
+          aria-label="Select page of mosques"
+        >
+        </mat-paginator>
       </div>
-      <mat-paginator
-        [pageSize]="mosqueTablePagination.pageSize"
-        [length]="5"
-        [pageIndex]="mosqueTablePagination.pageIndex"
-        [pageSizeOptions]="mosqueTablePagination.pageSizeOptions"
-        (page)="onPaginateChange($event)"
-        showFirstLastButtons
-        aria-label="Select page of periodic elements"
-        class="mat-paginator"
-      >
-      </mat-paginator>
     </div>
   </div>
 </div>
+<!-- all list come correctly -->

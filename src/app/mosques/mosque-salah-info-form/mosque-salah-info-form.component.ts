@@ -7,30 +7,14 @@ import { MosqueSalahInfoService } from 'src/app/services/mosques/mosque-salah-in
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MosquesService } from 'src/app/services/mosques/mosques.service';
-import * as moment from 'moment';
 
-// export class PasswordValidation {
-//   static MatchPassword(AC: any) {
-//     let password = AC.get('password').value;
-//     if (AC.get('confirm_password').touched || AC.get('confirm_password').dirty) {
-//       let verifyPassword = AC.get('confirm_password').value;
-
-//       if (password != verifyPassword) {
-//         AC.get('confirm_password').setErrors({ MatchPassword: true })
-//       } else {
-//         return null
-//       }
-//     }
-//     return null
-//   }
-// }
 @Component({
   selector: 'app-mosque-salah-info-form',
   templateUrl: './mosque-salah-info-form.component.html',
   styleUrls: ['./mosque-salah-info-form.component.sass']
 })
 export class MosqueSalahInfoFormComponent implements OnInit {
-   dropDownVisibility: boolean = true;
+  dropDownVisibility: boolean = true;
   mosqueSalahInfoID: any;
   isEdit = false;
 
@@ -38,13 +22,19 @@ export class MosqueSalahInfoFormComponent implements OnInit {
 
   MosqueSalahInfoForm!: FormGroup;
 
-  showPassword: boolean = false;
-  showConfirmPassword: boolean = false;
-
   mosqueSalahInfoData: any;
-
   mosqueNameIDList: any;
-  constructor(private activatedroute: ActivatedRoute, private router: Router, private form_builder: FormBuilder, private auth_service: AuthService, private mosquesService: MosquesService, private mosqueSalahInfoService: MosqueSalahInfoService, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
+
+  constructor(
+    private activatedroute: ActivatedRoute,
+    private router: Router,
+    private form_builder: FormBuilder,
+    private auth_service: AuthService,
+    private mosquesService: MosquesService,
+    private mosqueSalahInfoService: MosqueSalahInfoService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
     this.createMosqueSalahInfoForm();
@@ -53,15 +43,15 @@ export class MosqueSalahInfoFormComponent implements OnInit {
 
     if (hrefArr.includes("edit-mosque-prayer-time")) {
       this.mosqueSalahInfoID = this.activatedroute.snapshot.paramMap.get("id");
-      if (!this.mosqueSalahInfoID)
+      if (!this.mosqueSalahInfoID) {
         this.router.navigateByUrl('/Mosques/mosque-prayer-time-list');
+        return;
+      }
       this.isEdit = true;
       this.getMosqueSalahInfo();
-    }
-    else {
+    } else {
       this.getMosqueNameIDList();
     }
-    this.togglePasswordDisable()
   }
 
   createMosqueSalahInfoForm() {
@@ -78,26 +68,8 @@ export class MosqueSalahInfoFormComponent implements OnInit {
       isha_adhan: ['', Validators.required],
       isha_namaz: ['', Validators.required],
       jumma: ['', Validators.required],
-      // tarawih: ['', Validators.required],
-      // eid: ['', Validators.required],
-      sun_rise: ['', Validators.required],
+      //sun_rise: ['', Validators.required],
     });
-  }
-
-  togglePasswordVisibility(type: any) {
-    if (type == 'password') this.showPassword = !this.showPassword;
-    else this.showConfirmPassword = !this.showConfirmPassword;
-  }
-
-  togglePasswordDisable() {
-    if (this.isEdit) {
-      // this.MosqueSalahInfoForm.controls['password'].disable()
-      // this.MosqueSalahInfoForm.controls['confirm_password'].disable()
-    }
-    else {
-      // this.MosqueSalahInfoForm.controls['password'].enable()
-      // this.MosqueSalahInfoForm.controls['confirm_password'].enable()
-    }
   }
 
   getMosqueSalahInfo() {
@@ -107,57 +79,42 @@ export class MosqueSalahInfoFormComponent implements OnInit {
       this.spinner.hide();
       if (res?.status) {
         this.mosqueSalahInfoData = res?.mosquePrayerTimingData;
-        if (this.mosqueSalahInfoData?.mosque?._id)
-          this.MosqueSalahInfoForm.controls['mosque_id'].setValue(this.mosqueSalahInfoData.mosque._id);
-        if (this.mosqueSalahInfoData?.fajr_adhan)
-          this.MosqueSalahInfoForm.controls['fajr_adhan'].setValue(this.mosqueSalahInfoData.fajr_adhan);
-        if (this.mosqueSalahInfoData?.fajr_namaz)
-          this.MosqueSalahInfoForm.controls['fajr_namaz'].setValue(this.mosqueSalahInfoData.fajr_namaz);
-        if (this.mosqueSalahInfoData?.dhuhr_adhan)
-          this.MosqueSalahInfoForm.controls['dhuhr_adhan'].setValue(this.mosqueSalahInfoData.dhuhr_adhan);
-        if (this.mosqueSalahInfoData?.dhuhr_namaz)
-          this.MosqueSalahInfoForm.controls['dhuhr_namaz'].setValue(this.mosqueSalahInfoData.dhuhr_namaz);
-        if (this.mosqueSalahInfoData?.asr_adhan)
-          this.MosqueSalahInfoForm.controls['asr_adhan'].setValue(this.mosqueSalahInfoData.asr_adhan);
-        if (this.mosqueSalahInfoData?.asr_namaz)
-          this.MosqueSalahInfoForm.controls['asr_namaz'].setValue(this.mosqueSalahInfoData.asr_namaz);
-        if (this.mosqueSalahInfoData?.maghrib_adhan)
-          this.MosqueSalahInfoForm.controls['maghrib_adhan'].setValue(this.mosqueSalahInfoData.maghrib_adhan);
-        if (this.mosqueSalahInfoData?.maghrib_namaz)
-          this.MosqueSalahInfoForm.controls['maghrib_namaz'].setValue(this.mosqueSalahInfoData.maghrib_namaz);
-        if (this.mosqueSalahInfoData?.isha_adhan)
-          this.MosqueSalahInfoForm.controls['isha_adhan'].setValue(this.mosqueSalahInfoData.isha_adhan);
-        if (this.mosqueSalahInfoData?.isha_namaz)
-          this.MosqueSalahInfoForm.controls['isha_namaz'].setValue(this.mosqueSalahInfoData.isha_namaz);
-        if (this.mosqueSalahInfoData?.jumma)
-          this.MosqueSalahInfoForm.controls['jumma'].setValue(this.mosqueSalahInfoData.jumma);
-        // if (this.mosqueSalahInfoData?.tarawih)
-        //   this.MosqueSalahInfoForm.controls['tarawih'].setValue(this.mosqueSalahInfoData.tarawih);
-        // if (this.mosqueSalahInfoData?.eid)
-        //   this.MosqueSalahInfoForm.controls['eid'].setValue(this.mosqueSalahInfoData.eid);
-        if (this.mosqueSalahInfoData?.sun_rise)
-          this.MosqueSalahInfoForm.controls['sun_rise'].setValue(this.mosqueSalahInfoData.sun_rise);
-        // console.log('this.mosqueSalahInfoData', this.mosqueSalahInfoData);
 
+        // Patch form values carefully only if data exists
+        if (this.mosqueSalahInfoData) {
+          this.MosqueSalahInfoForm.patchValue({
+            mosque_id: this.mosqueSalahInfoData.mosque?._id || '',
+            fajr_adhan: this.padTimeIfNeeded(this.mosqueSalahInfoData.fajr_adhan),
+            fajr_namaz: this.padTimeIfNeeded(this.mosqueSalahInfoData.fajr_namaz),
+            dhuhr_adhan: this.padTimeIfNeeded(this.mosqueSalahInfoData.dhuhr_adhan),
+            dhuhr_namaz: this.padTimeIfNeeded(this.mosqueSalahInfoData.dhuhr_namaz),
+            asr_adhan: this.padTimeIfNeeded(this.mosqueSalahInfoData.asr_adhan),
+            asr_namaz: this.padTimeIfNeeded(this.mosqueSalahInfoData.asr_namaz),
+            maghrib_adhan: this.padTimeIfNeeded(this.mosqueSalahInfoData.maghrib_adhan),
+            maghrib_namaz: this.padTimeIfNeeded(this.mosqueSalahInfoData.maghrib_namaz),
+            isha_adhan: this.padTimeIfNeeded(this.mosqueSalahInfoData.isha_adhan),
+            isha_namaz: this.padTimeIfNeeded(this.mosqueSalahInfoData.isha_namaz),
+            jumma: this.padTimeIfNeeded(this.mosqueSalahInfoData.jumma),
+            //sun_rise: this.padTimeIfNeeded(this.mosqueSalahInfoData.sun_rise),
+          });
+        }
         this.getMosqueNameIDList();
       }
       else {
-
+        this.toastr.warning('Warning', 'Failed to fetch mosque prayer timing data');
       }
     }, (err: any) => {
-      if (err?.error?.message == 'jwt expired')
+      if (err?.error?.message === 'jwt expired') {
         this.router.navigateByUrl('/login');
-      // console.log(err);
+      }
       this.spinner.hide();
     });
   }
 
   getMosqueNameIDList() {
     const data = {
-      // page: this.mosqueTablePagination.pageIndex + 1,
-      // size: this.mosqueTablePagination.pageSize
       isEditID: this.mosqueSalahInfoData?.mosque?._id ? this.mosqueSalahInfoData.mosque._id : 0
-    }
+    };
     this.spinner.show();
     this.mosqueSalahInfoService.getMosqueNameIDList(data).subscribe((res: any) => {
       this.spinner.hide();
@@ -165,24 +122,27 @@ export class MosqueSalahInfoFormComponent implements OnInit {
         this.mosqueNameIDList = res.mosqueNameIDList;
       }
       else {
-
+        this.toastr.warning('Warning', 'Failed to fetch mosque list');
       }
     }, (err: any) => {
-      if (err?.error?.message == 'jwt expired')
+      if (err?.error?.message === 'jwt expired') {
         this.router.navigateByUrl('/login');
-      // console.log(err);
+      }
       this.spinner.hide();
     });
   }
-  
-  openIcon(timepicker: { open: () => void }){
-    if (!this.mosqueSalahInfoData) {
-      // this.mosqueSalahInfoData?.map((val:any)=>{
-      //  console.log(val)
-      // })
-      timepicker.open();
+
+  padTimeIfNeeded(time: string): string {
+    // Ensures time string like "5:30" becomes "05:30"
+    if (!time) return '';
+    let parts = time.split(':');
+    if (parts.length !== 2) return time;
+    if (parts[0].length === 1) {
+      parts[0] = '0' + parts[0];
     }
+    return parts.join(':');
   }
+
   submitMosqueSalahInfoForm(formDirective: any) {
     if (this.MosqueSalahInfoForm.invalid) {
       this.toastr.warning('Warning', 'Please Fill Required Fields');
@@ -190,29 +150,24 @@ export class MosqueSalahInfoFormComponent implements OnInit {
     }
     this.formDirective = formDirective;
 
-
+    const formValues = this.MosqueSalahInfoForm.value;
 
     const data: any = {
       _id: this.mosqueSalahInfoID ? this.mosqueSalahInfoID : 0,
-      mosque_id: this.MosqueSalahInfoForm.value.mosque_id,
-      fajr_adhan: this.MosqueSalahInfoForm.value.fajr_adhan?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.fajr_adhan:this.MosqueSalahInfoForm.value.fajr_adhan,
-      fajr_namaz: this.MosqueSalahInfoForm.value.fajr_namaz?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.fajr_namaz:this.MosqueSalahInfoForm.value.fajr_namaz,
-      dhuhr_adhan: this.MosqueSalahInfoForm.value.dhuhr_adhan?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.dhuhr_adhan:this.MosqueSalahInfoForm.value.dhuhr_adhan,
-      dhuhr_namaz: this.MosqueSalahInfoForm.value.dhuhr_namaz?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.dhuhr_namaz:this.MosqueSalahInfoForm.value.dhuhr_namaz,
-      asr_adhan:this.MosqueSalahInfoForm.value.asr_adhan?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.asr_adhan:this.MosqueSalahInfoForm.value.asr_adhan,
-      asr_namaz: this.MosqueSalahInfoForm.value.asr_namaz?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.asr_namaz:this.MosqueSalahInfoForm.value.asr_namaz,
-      maghrib_adhan: this.MosqueSalahInfoForm.value.maghrib_adhan?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.maghrib_adhan:this.MosqueSalahInfoForm.value.maghrib_adhan,
-      maghrib_namaz: this.MosqueSalahInfoForm.value.maghrib_namaz?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.maghrib_namaz:this.MosqueSalahInfoForm.value.maghrib_namaz,
-      isha_adhan: this.MosqueSalahInfoForm.value.isha_adhan?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.isha_adhan:this.MosqueSalahInfoForm.value.isha_adhan,
-      isha_namaz: this.MosqueSalahInfoForm.value.isha_namaz?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.isha_namaz:this.MosqueSalahInfoForm.value.isha_namaz,
-      jumma: this.MosqueSalahInfoForm.value.jumma?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.jumma:this.MosqueSalahInfoForm.value.jumma,
-      // tarawih: this.MosqueSalahInfoForm.value.tarawih,
-      // eid: this.MosqueSalahInfoForm.value.eid,
-      // sun_rise: this.MosqueSalahInfoForm.value.sun_rise?.split(":")[0]?.length==1?0+''+this.MosqueSalahInfoForm.value.sun_rise:this.MosqueSalahInfoForm.value.sun_rise,
+      mosque_id: formValues.mosque_id,
+      fajr_adhan: this.padTimeIfNeeded(formValues.fajr_adhan),
+      fajr_namaz: this.padTimeIfNeeded(formValues.fajr_namaz),
+      dhuhr_adhan: this.padTimeIfNeeded(formValues.dhuhr_adhan),
+      dhuhr_namaz: this.padTimeIfNeeded(formValues.dhuhr_namaz),
+      asr_adhan: this.padTimeIfNeeded(formValues.asr_adhan),
+      asr_namaz: this.padTimeIfNeeded(formValues.asr_namaz),
+      maghrib_adhan: this.padTimeIfNeeded(formValues.maghrib_adhan),
+      maghrib_namaz: this.padTimeIfNeeded(formValues.maghrib_namaz),
+      isha_adhan: this.padTimeIfNeeded(formValues.isha_adhan),
+      isha_namaz: this.padTimeIfNeeded(formValues.isha_namaz),
+      jumma: this.padTimeIfNeeded(formValues.jumma),
+      //sun_rise: this.padTimeIfNeeded(formValues.sun_rise),
     };
-
-   console.log(data);
-   
 
     if (!this.isEdit) {
       this.spinner.show();
@@ -228,14 +183,15 @@ export class MosqueSalahInfoFormComponent implements OnInit {
           this.toastr.warning('Warning', 'Mosque Creation Failed');
         }
       }, (err: any) => {
-        if (err?.error?.message == 'jwt expired')
+        if (err?.error?.message === 'jwt expired') {
           this.router.navigateByUrl('/login');
+        }
         this.spinner.hide();
         this.toastr.error('Error', err.error.message);
       });
     }
     else {
-      data._id = this.mosqueSalahInfoID
+      data._id = this.mosqueSalahInfoID;
       this.spinner.show();
       this.mosqueSalahInfoService.updateMosqueSalahInfo(data).subscribe((res: any) => {
         this.spinner.hide();
@@ -249,12 +205,18 @@ export class MosqueSalahInfoFormComponent implements OnInit {
           this.toastr.warning('Warning', 'Mosque Updation Failed');
         }
       }, (err: any) => {
-        if (err?.error?.message == 'jwt expired')
+        if (err?.error?.message === 'jwt expired') {
           this.router.navigateByUrl('/login');
+        }
         this.spinner.hide();
         this.toastr.error('Error', err.error.message);
       });
     }
+  }
 
+  openIcon(timepicker: { open: () => void }) {
+    if (!this.mosqueSalahInfoData) {
+      timepicker.open();
+    }
   }
 }
