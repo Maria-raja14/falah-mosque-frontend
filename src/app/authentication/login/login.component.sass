@@ -1,50 +1,239 @@
-
-mat-form-field 
+mat-form-field
     width: 100%
-    
-.login-section 
+
+    &.modern-input
+        .mat-form-field-outline
+            border-radius: 12px
+
+        .mat-form-field-outline-thick
+            border-width: 2px
+
+        &.mat-focused
+            .mat-form-field-outline-thick
+                border-color: #ff4848
+
+            .mat-form-field-label
+                color: #ff4848
+
+            .mat-icon
+                color: #ff4848
+
+.login-section
     width: 100%
     display: flex
     justify-content: center
     align-items: center
+    margin-top: 1.5rem
+
     .login-btn
-        // background: linear-gradient(140deg, red, blue)
-        background: linear-gradient(180deg, #ff4848, #ff4848)
+        position: relative
+        background: linear-gradient(135deg, #ff4848, #e53935)
         border: none
-        padding: 5px 5px
+        padding: 12px 30px
         color: white
-        width: 30%
-        border-radius: 5px
+        width: 100%
+        border-radius: 12px
+        font-size: 1.1rem
+        font-weight: 600
+        letter-spacing: 0.5px
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+        overflow: hidden
+        box-shadow: 0 4px 15px rgba(255, 72, 72, 0.3)
+
+        &:hover
+            transform: translateY(-2px)
+            box-shadow: 0 8px 25px rgba(255, 72, 72, 0.4)
+            background: linear-gradient(135deg, #ff4848, #d32f2f)
+
+        &:active
+            transform: translateY(0)
+
+        .btn-content
+            display: flex
+            align-items: center
+            justify-content: center
+            gap: 8px
+            position: relative
+            z-index: 2
+
+        .btn-shine
+            position: absolute
+            top: 0
+            left: -100%
+            width: 100%
+            height: 100%
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)
+            transition: left 0.5s
+
+        &:hover .btn-shine
+            left: 100%
 
 .login-card
-    // width: 30%
-.login-card-header
-    justify-content: center
-.login-card-content    
-    padding-top: 1.3rem
-.login-card-actions    
+    border-radius: 20px
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1)
+    backdrop-filter: blur(10px)
+    background: rgba(255, 255, 255, 0.95)
+    border: 1px solid rgba(255, 255, 255, 0.2)
+    overflow: hidden
+
+    .login-card-header
+        justify-content: center
+        text-align: center
+        padding: 2rem 1.5rem 1rem
+
+        .header-icon
+            margin-bottom: 1rem
+
+            mat-icon
+                font-size: 3rem
+                width: 3rem
+                height: 3rem
+                background: linear-gradient(135deg, #ff4848, #e53935)
+                -webkit-background-clip: text
+                -webkit-text-fill-color: transparent
+                background-clip: text
+
+        .mat-card-title
+            font-size: 1.8rem
+            font-weight: 700
+            margin-bottom: 0.5rem
+            color: #2d3748
+
+        .mat-card-subtitle
+            color: #718096
+            font-size: 1rem
+
+    .login-card-content
+        padding: 1.5rem 2rem 2rem
+
+.login-card-actions
     margin: 0
+    padding: 0
+
 .login-div
     display: flex
     justify-content: center
     align-items: center
     height: 100vh
-    // background: linear-gradient(140deg, red, blue)
-    // background: linear-gradient(180deg, #000000, #030040)
-    background: linear-gradient(90deg, #ef5555, #fac1c1)
+    background: linear-gradient(135deg, #ef5555 0%, #fac1c1 100%)
+    position: relative
 
-.sign-link
-    text-decoration: none
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(255,255,255,0.05) 0%, transparent 50%)
 
-.forget-link    
-    text-decoration: none
+.login-type-toggle
+    display: flex
+    background: #f7fafc
+    border-radius: 16px
+    padding: 6px
+    margin: 1rem 2rem 0
+    gap: 4px
 
-.falah-font
-    font-family: falahFont
+    .toggle-btn
+        flex: 1
+        display: flex
+        align-items: center
+        justify-content: center
+        gap: 8px
+        padding: 12px 16px
+        border: none
+        border-radius: 12px
+        background: transparent
+        color: #718096
+        font-weight: 500
+        transition: all 0.3s ease
+        cursor: pointer
 
-.moque-wallpaper 
-    background-image: url(/assets/images/moque_wallpaper.jpg)
-    background-repeat: no-repeat
-    background-origin: content-box
-    background-position: center
-    background-size: cover
+        &.active
+            background: white
+            color: #ff4848
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+
+            mat-icon
+                color: #ff4848
+
+        &:hover:not(.active)
+            background: rgba(255, 72, 72, 0.05)
+            color: #ff4848
+
+        mat-icon
+            font-size: 1.2rem
+            width: 1.2rem
+            height: 1.2rem
+
+.custom-divider
+    margin: 1.5rem 0
+
+.login-info
+    margin-top: 1.5rem
+    padding: 1rem
+    background: linear-gradient(135deg, #fff5f5, #fed7d7)
+    border-radius: 12px
+    border-left: 4px solid #ff4848
+
+    .info-container
+        display: flex
+        align-items: flex-start
+        gap: 12px
+
+        mat-icon
+            color: #ff4848
+            font-size: 1.2rem
+            margin-top: 2px
+            flex-shrink: 0
+
+        .info-text
+            margin: 0
+            color: #742a2a
+            font-size: 0.9rem
+            line-height: 1.4
+
+// Animations
+@keyframes fadeIn
+    from
+        opacity: 0
+        transform: translateY(10px)
+    to
+        opacity: 1
+        transform: translateY(0)
+
+.fadeIn
+    animation: fadeIn 0.3s ease-out
+
+// Responsive design
+@media (max-width: 768px)
+    .login-card
+        margin: 1rem
+
+        .login-card-header
+            padding: 1.5rem 1rem 0.5rem
+
+        .login-card-content
+            padding: 1rem 1.5rem 1.5rem
+
+    .login-type-toggle
+        margin: 1rem 1rem 0
+
+    .login-section .login-btn
+        width: 100%
+
+// Enhanced input styles
+.mat-form-field-appearance-outline.modern-input
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-gap,
+    .mat-form-field-outline-end
+        border-radius: 12px
+
+.password-toggle
+    cursor: pointer
+    color: #a0aec0
+    transition: color 0.2s ease
+
+    &:hover
+        color: #ff4848

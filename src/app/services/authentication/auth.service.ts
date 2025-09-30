@@ -77,7 +77,7 @@
 // }//original
 
 
-import { HttpClient, HttpHeaders, HttpBackend } from "@angular/common/http";
+import { HttpClient, HttpBackend } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, timer } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -101,6 +101,11 @@ export class AuthService {
 
   login(data: any): Observable<any> {
     return this.httpWithBackend.post<any>(`${this.baseUrl}auth/userLogin`, data);
+  }
+
+  // User login for regular users
+  userLogin(data: any): Observable<any> {
+    return this.httpWithBackend.post<any>(`${this.baseUrl}users/user-login`, data);
   }
 
   fpMailVerify(data: any): Observable<any> {
@@ -139,5 +144,19 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return localStorage.getItem('auth_token') !== null;
+  }
+
+  getUserRole(): string {
+    const userDetails = localStorage.getItem('user_details');
+    if (userDetails) {
+      const user = JSON.parse(userDetails);
+      return user.role || '';
+    }
+    return '';
+  }
+
+  logout(): void {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_details');
   }
 }

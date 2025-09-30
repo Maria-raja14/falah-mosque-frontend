@@ -1,15 +1,15 @@
-<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+<!-- <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 
 <div class="container-fluid">
   <div class="row login-div">
     <div class="col-md-2 col-lg-4"></div>
     <div class="col-md-8 col-lg-4">
-      <!-- <h1 class="text-center falah-font">FALAH</h1> -->
+    
       <mat-card class="login-card">
         <mat-card-header class="login-card-header">
           <mat-card-title>Login</mat-card-title>
         </mat-card-header>
-        <!-- <p>Don't have an account ? <a class="sign-link" routerLink="/register">Sign Up</a></p> -->
+       
         <mat-divider></mat-divider>
         <mat-card-content class="login-card-content">
           <form [formGroup]="LoginForm" #LoginFormDirective="ngForm" (ngSubmit)="submitLogin(LoginFormDirective)">
@@ -38,16 +38,188 @@
             </div>
             <mat-card-actions class="login-card-actions">
               <div class="login-section">
-                <!-- <a class="forget-link" routerLink="/reset-password">Forgetten Password ?</a> -->
+               
                 <button class="login-btn" type="submit" mat-button>Log In</button>
               </div>
             </mat-card-actions>
           </form>
         </mat-card-content>
       </mat-card>
-      <!-- <div>
-        <img src="../../../assets/images/logo1.jpg" alt="" style="width:100% ;" class="footer_image">
-      </div> -->
+   
+    </div>
+    <div class="col-md-2 col-lg-4"></div>
+  </div>
+</div>
+original -->
+
+
+<!-- <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="container-fluid">
+  <div class="row login-div">
+    <div class="col-md-2 col-lg-4"></div>
+    <div class="col-md-8 col-lg-4">
+      <mat-card class="login-card">
+        <mat-card-header class="login-card-header">
+          <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+        
+      
+        <div class="login-type-toggle">
+          <button 
+            type="button" 
+            class="toggle-btn" 
+            [class.active]="loginType === 'admin'"
+            (click)="toggleLoginType('admin')">
+            Admin Login
+          </button>
+          <button 
+            type="button" 
+            class="toggle-btn" 
+            [class.active]="loginType === 'user'"
+            (click)="toggleLoginType('user')">
+            User Login
+          </button>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card-content class="login-card-content">
+          <form [formGroup]="LoginForm" #LoginFormDirective="ngForm" (ngSubmit)="submitLogin(LoginFormDirective)">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input type="email" matInput required formControlName="email">
+                  <mat-error *ngIf="LoginForm.controls['email'].value == ''">Email is required</mat-error>
+                  <mat-error
+                    *ngIf="LoginForm.controls['email'].status == 'INVALID' && LoginForm.controls['email'].value != ''">
+                    Invalid Email Address</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input [type]="showPassword ? 'text' : 'password'" name="password" matInput
+                    formControlName="password">
+                  <mat-icon matSuffix (click)="togglePasswordVisibility()">
+                    {{showPassword?'visibility':'visibility_off'}}
+                  </mat-icon>
+                  <mat-error>Password is required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-card-actions class="login-card-actions">
+              <div class="login-section">
+                <button class="login-btn" type="submit" mat-button>
+                  {{ loginType === 'admin' ? 'Admin Login' : 'User Login' }}
+                </button>
+              </div>
+            </mat-card-actions>
+          </form>
+          
+        
+          <div class="login-info" *ngIf="loginType === 'user'">
+            <p class="info-text">
+              Use the same email and password that was created for your user account.
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-2 col-lg-4"></div>
+  </div>
+</div> -->
+
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="container-fluid">
+  <div class="row login-div">
+    <div class="col-md-2 col-lg-4"></div>
+    <div class="col-md-8 col-lg-4">
+      <mat-card class="login-card">
+        <mat-card-header class="login-card-header">
+          <div class="header-icon">
+            <mat-icon>security</mat-icon>
+          </div>
+          <mat-card-title>Welcome Back</mat-card-title>
+          <mat-card-subtitle>Sign in to continue</mat-card-subtitle>
+        </mat-card-header>
+        
+        <!-- Login Type Toggle -->
+        <div class="login-type-toggle">
+          <button 
+            type="button" 
+            class="toggle-btn" 
+            [class.active]="loginType === 'admin'"
+            (click)="toggleLoginType('admin')">
+            <mat-icon>admin_panel_settings</mat-icon>
+            Admin Login
+          </button>
+          <button 
+            type="button" 
+            class="toggle-btn" 
+            [class.active]="loginType === 'user'"
+            (click)="toggleLoginType('user')">
+            <mat-icon>person</mat-icon>
+            User Login
+          </button>
+        </div>
+
+        <mat-divider class="custom-divider"></mat-divider>
+        
+        <mat-card-content class="login-card-content">
+          <form [formGroup]="LoginForm" #LoginFormDirective="ngForm" (ngSubmit)="submitLogin(LoginFormDirective)">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline" class="modern-input">
+                  <mat-label>Email Address</mat-label>
+                  <input type="email" matInput required formControlName="email">
+                  <mat-icon matPrefix>email</mat-icon>
+                  <mat-error *ngIf="LoginForm.controls['email'].value == ''">Email is required</mat-error>
+                  <mat-error
+                    *ngIf="LoginForm.controls['email'].status == 'INVALID' && LoginForm.controls['email'].value != ''">
+                    Invalid Email Address</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field appearance="outline" class="modern-input">
+                  <mat-label>Password</mat-label>
+                  <input [type]="showPassword ? 'text' : 'password'" name="password" matInput
+                    formControlName="password">
+                  <mat-icon matPrefix>lock</mat-icon>
+                  <mat-icon matSuffix (click)="togglePasswordVisibility()" class="password-toggle">
+                    {{showPassword?'visibility':'visibility_off'}}
+                  </mat-icon>
+                  <mat-error>Password is required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <mat-card-actions class="login-card-actions">
+              <div class="login-section">
+                <button class="login-btn" type="submit" mat-button>
+                  <span class="btn-content">
+                    <mat-icon>{{ loginType === 'admin' ? 'admin_panel_settings' : 'login' }}</mat-icon>
+                    {{ loginType === 'admin' ? 'Admin Login' : 'User Login' }}
+                  </span>
+                  <div class="btn-shine"></div>
+                </button>
+              </div>
+            </mat-card-actions>
+          </form>
+          
+          <!-- Info message -->
+          <div class="login-info" *ngIf="loginType === 'user'" @fadeIn>
+            <div class="info-container">
+              <mat-icon>info</mat-icon>
+              <p class="info-text">
+                Use the same email and password that was created for your user account.
+              </p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div class="col-md-2 col-lg-4"></div>
   </div>
