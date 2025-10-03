@@ -284,4 +284,4 @@ export class MosqueFormComponent implements OnInit {
   goBack() {
     this.router.navigateByUrl('/Mosques');
   }
-}
+}//original

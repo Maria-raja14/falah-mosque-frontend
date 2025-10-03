@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   // ApiUrl: 'https://api.falahprayer.com/',
-  ApiUrl: 'http://localhost:3000/api/',
+  // ApiUrl: 'http://localhost:3000/api/',
+    ApiUrl:'http://192.168.29.229:3000/api/',
 };
 
 /*
